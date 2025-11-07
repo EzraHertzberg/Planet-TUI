@@ -136,7 +136,7 @@ def solar_system():
         if i > 0:
             planet.orbit(sun, round(6 + i * 2.5), angle_calc.calc_angle(i, the_time), 0) 
             planet.draw()
-            grid_call()
+    grid_call()
         
         
 if __name__ == "__main__":
@@ -153,5 +153,7 @@ if __name__ == "__main__":
                 the_time = set_new_time()
                 os.system("cls")
                 print(f"time set to {the_time.utc_strftime()}")
+            if inp == "goto":
+                go = input("go to where?: ")
         else:
             print("that's not a command")

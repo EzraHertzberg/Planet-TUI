@@ -14,12 +14,47 @@ size = os.get_terminal_size()
 screen_width = size.columns 
 screen_height = size.lines - 2
 
-commands = ["h","timeset","solarsystem"]
+commands = ["h","timeset","solarsystem","goto","show"]
 
+page_info = []
 grid = []
 
-def goto(place):
 
+def mercury():
+    print("mercury")
+    
+
+def venus():
+    print("venus")
+
+
+def earth():
+    print("earth")
+
+
+def mars():
+    print("mars")
+
+
+
+def go_to(place):
+    global page_info
+    while True:
+        go = input("go to where?: ").lower
+        if go == "mercury":
+            page_info = [mercury]
+        elif go == "venus":
+            page_info = [venus]        
+        elif go == "earth":
+            page_info = [earth]
+        elif go == "mars":
+            page_info = [mars]
+        elif go == "jupiter":
+            page_info = [jupiter]
+        elif go == "uranus":
+            page_info = [uranus]
+        elif go == "neptune":
+            page_info = [neptune]            
 def set_new_time():
     year = 0
     month = 0
@@ -146,7 +181,7 @@ if __name__ == "__main__":
         inp = input("Enter a command, h for help: ")
         if inp in commands:
             if inp == "solarsystem":
-                solar_system()
+                page_info = [solar_system]
             if inp == "h":
                 print("These are the valid commands: ")
                 for com in commands:
@@ -156,6 +191,9 @@ if __name__ == "__main__":
                 os.system("cls")
                 print(f"time set to {the_time.utc_strftime()}")
             if inp == "goto":
-                go = input("go to where?: ")
+                go_to()
         else:
             print("that's not a command")
+            
+        for page in page_info:
+            page()

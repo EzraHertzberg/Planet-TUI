@@ -28,7 +28,7 @@ class text_box:
         self.y = y
         self.w = w
         self.h = h
-        self.message = message
+        self.message = message.replace("\n","‽")
         self.has_border = has_border
         
         #actual function
@@ -54,31 +54,7 @@ class text_box:
                             new_line = True
                 except IndexError:
                     pass
-    """
-    def draw(self):
-        new_line = False
-        character = 0
-        lines = []
-        for j in range(self.h):
-            new_line = False
-            for i in range(self.w):
-                try:
-                    if (i == 0 or i == self.w - 1) and self.has_border:
-                            grid[self.y + j][self.x + i] = "|"
-                    elif (j == 0 or j == self.h - 1) and self.has_border:
-                            grid[self.y + j][self.x + i] = "~"
-                    elif len(self.message) > character and not new_line:
-                        if self.message[character] != "‽":
-                            grid[self.y + j][self.x + i] = self.message[character]
-                        if self.message[character] != "‽" and not new_line:
-                            character += 1
-                        else:
-                            if self.message[character] == "‽":
-                                character += 1
-                            new_line = True
-                except IndexError:
-                    pass
-            """
+
 def mercury():
     os.system("cls")
     text1 = assets.saturn_img

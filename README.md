@@ -1,2 +1,3 @@
-#orbit
-basically I'm kepler
+#orbit ui
+An educational terminal user interface about our solar system. 
+

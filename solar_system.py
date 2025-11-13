@@ -56,11 +56,12 @@ class text_box:
                     pass
 def mercury():
     os.system("cls")
-    text1 = assets.mercury
-    text_box1 = text_box(10,2,100,25,text1,False)
+    text1 = assets.saturn_img
+    text_box1 = text_box(75,15,60,25,text1,False)
     text_box1.draw()
-
-
+    text2 = assets.saturn_img2
+    text_box2 = text_box(10,15,65,25,text2,False)
+    text_box2.draw()
 def venus():
     print("venus")
 
@@ -163,12 +164,15 @@ def grid_set():
 def grid_call():
     global grid
     for i in range(screen_height):
-        print("".join(grid[i]))
+        for j in range(screen_width):
+            print(grid[i][j], end = "")
+
 
 def screen_clear():
     os.system("cls")
     grid_set()
     grid_call()
+
 
 class circle:
         def __init__(self,x, y, size, name):

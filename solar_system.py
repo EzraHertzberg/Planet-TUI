@@ -5,7 +5,7 @@ import math
 import os
 import time
 import random
-import angle_calc
+import calc
 from skyfield.api import load
 import pyfiglet
 import assets
@@ -30,7 +30,31 @@ class text_box:
         self.h = h
         self.message = message
         self.has_border = has_border
-    
+        
+        #actual function
+        new_line = False
+        character = 0
+        lines = []
+        for j in range(self.h):
+            new_line = False
+            for i in range(self.w):
+                try:
+                    if (i == 0 or i == self.w - 1) and self.has_border:
+                            grid[self.y + j][self.x + i] = "|"
+                    elif (j == 0 or j == self.h - 1) and self.has_border:
+                            grid[self.y + j][self.x + i] = "~"
+                    elif len(self.message) > character and not new_line:
+                        if self.message[character] != "‽":
+                            grid[self.y + j][self.x + i] = self.message[character]
+                        if self.message[character] != "‽" and not new_line:
+                            character += 1
+                        else:
+                            if self.message[character] == "‽":
+                                character += 1
+                            new_line = True
+                except IndexError:
+                    pass
+    """
     def draw(self):
         new_line = False
         character = 0
@@ -54,14 +78,15 @@ class text_box:
                             new_line = True
                 except IndexError:
                     pass
+            """
 def mercury():
     os.system("cls")
     text1 = assets.saturn_img
-    text_box1 = text_box(75,15,60,25,text1,False)
-    text_box1.draw()
+    text_box(75,15,60,25,text1,False)
+
     text2 = assets.saturn_img2
-    text_box2 = text_box(10,15,65,25,text2,False)
-    text_box2.draw()
+    text_box(10,15,65,25,text2,False)
+
 def venus():
     print("venus")
 
@@ -224,7 +249,7 @@ def solar_system():
     sun.draw()
     for i, planet in enumerate(planets):
         if i > 0:
-            planet.orbit(sun, round(6 + i * 2.5), angle_calc.calc_angle(i, the_time), 0) 
+            planet.orbit(sun, round(6 + i * 2.5), calc.calc_angle(i, the_time), 0) 
             planet.draw()
 
         

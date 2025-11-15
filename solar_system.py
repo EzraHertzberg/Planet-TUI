@@ -55,49 +55,37 @@ class text_box:
                 except IndexError:
                     pass
 
-def mercury():
+def planet_page(planet_id):
     os.system("cls")
-    text1 = assets.saturn_img
-    text_box(75,15,60,25,text1,False)
+    text1 = assets.planet_names[planet_id - 1]
+    text_box(15,2,60,25,text1,False)
 
-    text2 = assets.saturn_img2
-    text_box(10,15,65,25,text2,False)
-
-def venus():
-    print("venus")
-
-
-def earth():
-    print("earth")
-
-
-def mars():
-    print("mars")
-
-places_to_go = ["mercury","venus","earth","mars","jupiter","saturn","uranus"]
+    text2 = assets.planet_imgs[planet_id - 1]
+    text_box(5,10,65,35,text2,False)
 
 
 def go_to():
+    places_to_go = ["mercury","venus","earth","mars","jupiter","saturn","uranus"]
     global page_info
     while True:
         go = input("go to where?: ").lower()
         if go in places_to_go:
             if go == "mercury":
-                page_info = [mercury]
+                page_info = [planet_page(1)]
             elif go == "venus":
-                page_info = [venus]        
+                page_info = [planet_page(2)]        
             elif go == "earth":
-                page_info = [earth]
+                page_info = [planet_page(3)]
             elif go == "mars":
-                page_info = [mars]
+                page_info = [planet_page(4)]
             elif go == "jupiter":
-                page_info = [jupiter]
+                page_info = [planet_page(5)]
             elif go == "saturn":
-                page_info = [saturn]
+                page_info = [planet_page(6)]
             elif go == "uranus":
-                page_info = [uranus]
+                page_info = [planet_page(7)]
             elif go == "neptune":
-                page_info = [neptune]
+                page_info = [planet_page(8)]
             break
         else:
             print(f"invalid, program does not recognize {go} as a place to go to. Try again")
@@ -149,6 +137,7 @@ def set_new_time():
                     break
             except TypeError:
                 print("please enter a number for the day")
+            
         return ts.utc(year, month, day, 0, 0, 0) 
         
         
@@ -210,7 +199,7 @@ class circle:
 
 def solar_system():
     os.system("cls")
-    sun = circle(80,24,4,"sun")
+    sun = circle(90,24,4,"sun")
     planets = ["place holder",
                circle(60,20,3, "mercury"),
                circle(60,20,3,"venus"),
@@ -227,7 +216,7 @@ def solar_system():
         if i > 0:
             planet.orbit(sun, round(6 + i * 2.5), calc.calc_angle(i, the_time), 0) 
             planet.draw()
-
+    print(f"Angles of planets as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}") 
         
         
 if __name__ == "__main__":
@@ -239,6 +228,7 @@ if __name__ == "__main__":
             if inp == "solarsystem":
                 page_info = [solar_system]
             if inp == "h":
+                os.system("cls")
                 print("These are the valid commands: ")
                 for com in commands:
                     print(com)
@@ -254,7 +244,7 @@ if __name__ == "__main__":
         for page in page_info:
             page()
         grid_call()
-        """
+"""
     grid_set()
-    mercury()
+    planet_page(6)
     grid_call()

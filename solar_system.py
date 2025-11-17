@@ -22,6 +22,11 @@ commands = ["h","timeset","solarsystem","goto","show"]
 page_info = []
 grid = []
 
+
+pages = {
+    "mercury": planet_page(6)
+    }
+
 class text_box:
     def __init__(self,x, y, w, h, message, has_border):
         self.x = x
@@ -246,5 +251,5 @@ if __name__ == "__main__":
         grid_call()
 """
     grid_set()
-    planet_page(6)
+    pages["mercury"]()
     grid_call()

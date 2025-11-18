@@ -21,11 +21,14 @@ commands = ["h","timeset","solarsystem","goto","show"]
 
 page_info = []
 grid = []
+page_specifier = 0
 
 
+"""
 pages = {
     "mercury": planet_page(6)
     }
+"""
 
 class text_box:
     def __init__(self,x, y, w, h, message, has_border):
@@ -70,28 +73,22 @@ def planet_page(planet_id):
 
 
 def go_to():
-    places_to_go = ["mercury","venus","earth","mars","jupiter","saturn","uranus"]
-    global page_info
+    planets = ["mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
+    global page_info, page_specifier
     while True:
-        go = input("go to where?: ").lower()
-        if go in places_to_go:
-            if go == "mercury":
-                page_info = [planet_page(1)]
-            elif go == "venus":
-                page_info = [planet_page(2)]        
-            elif go == "earth":
-                page_info = [planet_page(3)]
-            elif go == "mars":
-                page_info = [planet_page(4)]
-            elif go == "jupiter":
-                page_info = [planet_page(5)]
-            elif go == "saturn":
-                page_info = [planet_page(6)]
-            elif go == "uranus":
-                page_info = [planet_page(7)]
-            elif go == "neptune":
-                page_info = [planet_page(8)]
+        go = str(input("go to where? (q to quit): ")).lower()
+        if go == "q":
+            os.system("cls")
             break
+        
+        if go in planets:
+            page_info = [planet_page]
+            page_specifier = planets(go) + 1      
+            break
+        if go == "solarsystem":
+            page_info = [solar_system]
+            
+
         else:
             print(f"invalid, program does not recognize {go} as a place to go to. Try again")
             
@@ -225,13 +222,12 @@ def solar_system():
         
         
 if __name__ == "__main__":
-    """
+
     screen_clear()
     while True:
         inp = input("Enter a command, h for help: ")
+        page_specifier = 0
         if inp in commands:
-            if inp == "solarsystem":
-                page_info = [solar_system]
             if inp == "h":
                 os.system("cls")
                 print("These are the valid commands: ")
@@ -246,10 +242,19 @@ if __name__ == "__main__":
         else:
             print("that's not a command")
         grid_set()
-        for page in page_info:
-            page()
-        grid_call()
+        
+        if page_specifier == 0:
+            for page in page_info:
+                page()
+            grid_call()
+        else:
+            for page in page_info:
+                page(page_specifier)
+            grid_call()        
+
+    
 """
     grid_set()
-    pages["mercury"]()
+    planet_page(6)
     grid_call()
+"""

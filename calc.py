@@ -19,18 +19,22 @@ def calc_dist(planet_id1, planet_id2, t):
     ra, dec, distance = astrometric.radec()
     return distance
 
-
+planet_names = ["","mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
 def gen_dists(planet_id, unit, t):
     dists = ""
-    for i in range(8):
+    for i in range(1, 9):
         if i !=  planet_id:
             if unit == "km":
-                dist = calc_dist(planets[planet_id - 1], planets[i], t).km
+                the_unit = "km"
+                dist = calc_dist(planet_id, i, t).km
             elif unit == "mi":
-                dist = calc_dist(planets[planet_id - 1], planets[i], t).mi
+                the_unit = "mi"
+                dist = calc_dist(planet_id, i, t).mi
             else:
-                dist = calc_dist(planets[planet_id - 1], planets[i], t)
-    dists = dists + f"\n{dist}"
+                the_unit = ""
+                dist = calc_dist(planet_id, i, t)
+            dists = dists + f"\n{planet_names[planet_id]} is {dist} {the_unit} away from {planet_names[i]}"
+    return(dists)
 
 if __name__ == "__main__":
-    print(gen_dists(1, 2, the_time))
+    print(gen_dists(3, "km", the_time))

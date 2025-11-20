@@ -13,7 +13,7 @@ ts = load.timescale()
 the_time = ts.now()
 size = os.get_terminal_size()
 screen_width = size.columns 
-screen_height = size.lines - 2
+screen_height = size.lines - 3
 
 commands = ["h","timeset","dateset","solarsystem","goto","show"]
 
@@ -89,6 +89,7 @@ def go_to():
             page_specifier = planets.index(go) + 1      
             break
         if go == "solarsystem":
+            page_specifier = 0
             page_info = [solar_system]
             break
 
@@ -138,8 +139,11 @@ def set_new_date():
                 else:
                     break
             except TypeError:
-                print("please enter a number for the day")    
-        return ts.utc(year, month, day, 0, 0, 0) 
+                print("please enter a number for the day")
+        the_hour = the_time.utc.hour
+        the_minute = the_time.utc.minute
+        the_second = the_time.utc.second
+        return ts.utc(year, month, day, the_hour, the_minute, the_second) 
         
 
 def set_new_time():
@@ -156,15 +160,36 @@ def set_new_time():
         while True:
             try:
                 hour = int(input("Enter an hour in military time from 0 to 23: "))
-                if hour > 0 and year < 23:
+                if hour >= 0 and hour < 23:
                     break
                 else:
                     print("Invalid hour please enter a hour within range 0-23")
-            except TypeError:
-                print("please enter a number for the hour")
-            ###
-
-
+            except (TypeError, ValueError):
+                print("please enter an integer for the hour")
+        while True:
+            try:
+                minute = int(input("Enter a minute from 0 to 59: "))
+                if minute >= 0 and minute < 60:
+                    break
+                else:
+                    print("Invalid hour please enter a minute within range 0-59")
+            except (TypeError, ValueError):
+                print("please enter an integer for the minute")            
+        while True:
+            try:
+                second = int(input("Enter a second from 0 to 59: "))
+                if second >= 0 and second < 60:
+                    break
+                else:
+                    print("Invalid second please enter a second within range 0-59")
+            except (TypeError, ValueError):
+                print("please enter an integer for the second")  
+        the_year = the_time.utc.year
+        the_month = the_time.utc.month
+        the_day = the_time.utc.day
+        return ts.utc(the_year, the_month, the_day, hour, minute, second) 
+        
+        
 def grid_set():
     global grid
     grid = []
@@ -225,14 +250,14 @@ def solar_system():
     os.system("cls")
     sun = circle(90,24,4,"sun")
     planets = ["place holder",
-               circle(60,20,3, "mercury"),
-               circle(60,20,3,"venus"),
-               circle(60,20,3., "earth"),
-               circle(60,20,3, "mars"),
-               circle(60,20,3, "jupiter"),
-               circle(60,20,3, "saturn"),
-               circle(60,20,3, "uranus"),
-               circle(60,20,3, "neptune"),
+               circle(60,20,3, "Mercury"),
+               circle(60,20,3,"Venus"),
+               circle(60,20,3., "Earth"),
+               circle(60,20,3, "Mars"),
+               circle(60,20,3, "Jupiter"),
+               circle(60,20,3, "Saturn"),
+               circle(60,20,3, "Uranus"),
+               circle(60,20,3, "Neptune"),
                ]
     grid_set()
     sun.draw()
@@ -259,7 +284,7 @@ if __name__ == "__main__":
                 os.system("cls")
                 print(f"time set to {the_time.utc_strftime()}")
             if inp == "timeset":
-                set_new_time()
+                the_time = set_new_time()
                 os.system("cls")
                 print(f"time set to {the_time.utc_strftime()}")                
             if inp == "goto":
@@ -267,7 +292,6 @@ if __name__ == "__main__":
         else:
             print("that's not a command")
         grid_set()
-        os.system("cls")
         if page_specifier == 0:
             for page in page_info:
                 page()

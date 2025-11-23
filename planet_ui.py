@@ -23,11 +23,12 @@ page_specifier = 0
 
 
 class text_box:
-    def __init__(self, x, y, w, h, message, has_border):
+    def __init__(self, x, y, w, h, message, has_border=False, wrap=None):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
+        
         self.message = message.replace("\n","‽")
         self.has_border = has_border
         
@@ -59,10 +60,10 @@ def planet_page(planet_id):
     os.system("cls")
     moon_counts = []
     text1 = assets.planet_names[planet_id - 1]
-    text_box(15, 2, 60, 25, text1, False)
+    text_box(15, 2, 60, 25, text1)
 
     text2 = assets.planet_imgs[planet_id - 1]
-    text_box(5, 10, 65, 35, text2, False)
+    text_box(5, 10, 65, 35, text2)
     planet_type = ""
     if planet_id < 5:
         planet_type = "Terrestrial Planet"
@@ -74,8 +75,8 @@ def planet_page(planet_id):
     text_box(60, 5, 40, 3, f"Planet Type: {planet_type}", True)
     #text_box(60,8,40,3,f"Moon Count as of 2025: {mooncount}",True)    
     text_box(12, 38, 46, 10, assets.planet_description[planet_id - 1], True)
-    text_box(60, 15, 45, 16, calc.gen_dists(planet_id, "km", the_time), True)
-    #text_box(60, 8, 45, 5, calc.sun_dist(planet_id, the_time), True)
+    text_box(60, 10, 45, 18, calc.planet_dists(planet_id, "km", the_time), True)
+    text_box(60, 7, 45, 4, calc.sun_dist(planet_id, "km", the_time), True)
 
 def go_to():
     planets = ["mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]

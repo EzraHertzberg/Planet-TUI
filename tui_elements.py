@@ -1,4 +1,5 @@
 import textwrap
+import math
 
 class text_box:
     def __init__(self, grid, x, y, w, h, message, has_border=False, wrap=None):
@@ -28,7 +29,6 @@ class text_box:
                 self.h = line_counter + 2
             if self.w == "stretch":
                 self.w = longest_line + 2
-                print(self.w)
             
         self.has_border = has_border
         
@@ -56,7 +56,7 @@ class text_box:
                 except IndexError:
                     pass
 class circle:
-        def __init__(self,x, y, size, name):
+        def __init__(self, x, y, size, name):
             self.x = x
             self.y = y
             self.size = int(size)
@@ -97,3 +97,6 @@ def draw_ring(grid, origin, dist):
             grid[y][x] = "."
         except IndexError:
             pass
+        
+if __name__ == "__main__":
+     pass

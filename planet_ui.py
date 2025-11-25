@@ -21,7 +21,8 @@ the_unit = "au"
 commands = {"h": "type h to be sent to the help page",
             "dateset": "prompts you to set set specific date or set date as the current date",
             "timeset": "prompts you to set specific time or set time as the current time",
-            "unitset": "prompts for what unit to display, valid units include {km, mi, au, light-seconds, light-minutes, and light time",
+            "dist_unitset": "prompts for what distance unit to display, valid units include {km, mi, au, light-seconds, or light-minutes",
+            "vel_unitset": "prompts for what velocity unit to display, valid units include {km, mi, or au",
             "goto": "prompts for destination ex.{mars, venus, solarsystem} and navigates to that page"}
 
 page_info = []
@@ -44,7 +45,8 @@ def planet_page(planet_id):
     else:
         planet_type = "Ice Giant"
     
-    tui_elements.text_box(grid, 60, 5, 40, 3, f"Planet Type: {planet_type}", True) 
+    tui_elements.text_box(grid, 60, 5, 40, 3, f"Planet Type: {planet_type}", True)
+    tui_elements.text_box(grid, 12, 36, 46, "stretch", "Description", True, "fill")
     tui_elements.text_box(grid, 12, 38, 46, "stretch", assets.planet_description[planet_id - 1], True, "fill")
     tui_elements.text_box(grid, 110, 5, 50, 5,f"Distances as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}", True, "fill")
     tui_elements.text_box(grid, 110, 12, "stretch", 18, calc.planet_dists(planet_id, the_unit, the_time), True)
@@ -166,11 +168,23 @@ def set_new_time():
         
 
 def unit_set():
-    valid_units["km","mi","au","light-seconds","light minutes"]
+    global the_unit
+    valid_units = ["km","mi","au","ls","lm"]
+    the_units = "[km (kilometers), mi (miles), au (astronomical units), ls (light-seconds), lm (light-minutes]"
     while True:
-        input("enter a unit for the distances")
-
-
+        unit = str(input("enter a unit or q to quit, u to see units: ")).lower()
+        if unit == "q":
+            break
+        if unit == "u":
+            print(f"the units {the_units}")
+        if unit in valid_units:
+            the_unit = unit
+            print(f"Units are now set to {unit}")
+            break
+        else:
+            print("invalid input unit not recognized")
+                
+                
 def grid_set():
     global grid
     grid = []
@@ -204,27 +218,28 @@ def _help():
 
 def solar_system():
     os.system("cls")
-    sun = tui_elements.circle(grid, 90, 25, 4,"sun")
+    sun = tui_elements.circle(90, 25, 4,"sun")
     planets = ["place holder",
-               tui_elements.circle(grid, 60,20, 3, "Mercury"),
-               tui_elements.circle(grid, 60,20, 3,"Venus"),
-               tui_elements.circle(grid, 60,20, 3, "Earth"),
-               tui_elements.circle(grid, 60,20, 3, "Mars"),
-               tui_elements.circle(grid, 60,20, 3, "Jupiter"),
-               tui_elements.circle(grid, 60,20, 3, "Saturn"),
-               tui_elements.circle(grid, 60,20, 3, "Uranus"),
-               tui_elements.circle(grid, 60,20, 3, "Neptune"),
+               tui_elements.circle(60, 20, 3, "Mercury"),
+               tui_elements.circle(60, 20, 3,"Venus"),
+               tui_elements.circle(60, 20, 3, "Earth"),
+               tui_elements.circle(60, 20, 3, "Mars"),
+               tui_elements.circle(60, 20, 3, "Jupiter"),
+               tui_elements.circle(60, 20, 3, "Saturn"),
+               tui_elements.circle(60, 20, 3, "Uranus"),
+               tui_elements.circle(60, 20, 3, "Neptune"),
                ]
     grid_set()
-    sun.draw()
+    sun.draw(grid)
     for i in range(1, 9):
         pass
         tui_elements.draw_ring(grid, sun, round(4 + i * 3)) 
     for i, planet in enumerate(planets):
         if i > 0:                      
-            planet.orbit(sun, round(4 + i * 3), calc.calc_angle(i, the_time), 0)            
-            planet.draw()
-    print(f"Angles of planets as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}") 
+            planet.orbit(sun, round(4 + i * 3), calc.calc_sun_angle(i, the_time), 0)            
+            planet.draw(grid)
+    tui_elements.text_box(grid, 5, 25, "stretch", "stretch", "Vernal Equinox", False)
+    print(f"Aproximation of Angles of planets from Sun as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}") 
         
         
 if __name__ == "__main__":
@@ -246,6 +261,8 @@ if __name__ == "__main__":
                 print(f"time set to {the_time.utc_strftime()}")                
             if inp == "goto":
                 go_to()
+            if inp == "unitset":
+                unit_set()
         else:
             print("that's not a command")
         grid_set()

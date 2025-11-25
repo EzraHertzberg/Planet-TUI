@@ -7,13 +7,24 @@ ts = load.timescale()
 the_time = ts.now()
 
 
-def calc_angle(planet_id, t):
+def calc_vel(planet_id, t):
+    
+    planets[planet_id].at(t).velocity.au_per_d
+    pass
+
+def calc_barycenter_angle(planet_id, t):
     position = planets[planet_id].at(t)
     x, y, z = position.frame_xyz(ecliptic_frame).au
     angle = (180/math.pi) * math.atan2(y, x)
     return angle
 
 
+def calc_sun_angle(planet_id, t):
+    x, y, z = planets[10].at(t).observe(planets[planet_id]).frame_xyz(ecliptic_frame).au
+    angle = (180/math.pi) * math.atan2(y, x)
+    return angle
+                                               
+                                               
 def calc_dist(planet_id1, planet_id2, unit, t):
     astrometric = planets[planet_id1].at(t).observe(planets[planet_id2])
     ra, dec, distance = astrometric.radec()
@@ -24,7 +35,7 @@ def calc_dist(planet_id1, planet_id2, unit, t):
     elif unit == "ls":
         dist_f = '{:,.0f} light-seconds'.format(distance.km * (1/299792))
     elif unit == "lm":
-        dist_f = '{:,.0f} light-minutes'.format(distance.km * (1/(60*299792)))                
+        dist_f = '{:,.0f} light-minutes'.format(distance.km * (1/(60*299792)))
     else:
         dist_f = '{:,.3f} au'.format(distance.au)    
     return dist_f

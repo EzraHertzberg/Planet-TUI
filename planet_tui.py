@@ -9,12 +9,13 @@ import calc
 from skyfield.api import load
 import assets
 import tui_elements
+import keyboard
 
 ts = load.timescale()
 the_time = ts.now()
 size = os.get_terminal_size()
 screen_width = size.columns 
-screen_height = size.lines - 3
+screen_height = size.lines - 2
 
 distance_unit = "km"
 velocity_unit = "km"
@@ -241,9 +242,12 @@ def _help():
         com_text = com_text + f"{command}           {description}"
         tui_elements.text_box(grid, 3, 3, 200, 100, com_text)
 
-def solar_system():
-    os.system("cls")
-    sun = tui_elements.circle(90, 25, 4,"sun")
+def solar_system(animated = False):
+    if not animated:
+        os.system("cls")
+    else:
+        print("\033[H", end="")
+    sun = tui_elements.circle(90, 26, 4,"sun")
     planets = ["place holder",
                tui_elements.circle(60, 20, 3, "Mercury"),
                tui_elements.circle(60, 20, 3,"Venus"),
@@ -263,27 +267,35 @@ def solar_system():
         if i > 0:                      
             planet.orbit(sun, round(4 + i * 3), calc.calc_sun_angle(i, the_time), 0)            
             planet.draw(grid)
-    tui_elements.text_box(grid, 5, 25, "stretch", "stretch", "Vernal Equinox", False)
-    print(f"Aproximation of Angles of planets from Sun as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}") 
+    tui_elements.text_box(grid, 5, 26, "stretch", "stretch", "Vernal Equinox", False)
+    tui_elements.text_box(grid, 0, 0, "stretch", "stretch", f"Aproximation of Angles of planets from Sun as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}", False)     
 
-
-    def animate_system():
-        global the_time
-        while True:
-            try:
-                step = float(input("Enter a float or integer for the step length in days per frame from -15 to 15 with an absolute value above 0.1: ")) 
-                if step > -10 and step < 10 and abs(step) > 0.1:
-                    break
-                else:
-                    print("invalid please enter Enter a float or integer for the step length in days per frame from -15 to 15 with an absolute value above 0.1")
-            except (ValueError, TypeError):
-                print("invalid input enter a number")
-        while True:
-            grid_set()
-            solar_system()
-            the_time = the_time + step
-            grid_call()
-            
+    
+    
+def animate_system():
+    global the_time, page_info
+    while True:
+        try:
+            step = float(input("Enter a float or integer for the step length in days per frame from 5 to 5 with an absolute value above 0.1: ")) 
+            if step >= -5 and step <= 5 and abs(step) >= 0.1:
+                os.system("cls")
+                break
+            else:
+                print("invalid please enter Enter a float or integer for the step length in days per frame from 5 to 5 with an absolute value above 0.1")
+        except (ValueError, TypeError):
+            print("invalid input enter a number")
+    while True:
+        grid_set()
+        solar_system(True)
+        the_time = the_time + step
+        grid_call()
+        time.sleep(0.03)
+        if keyboard.is_pressed("q"):
+            print("\033[H", end="")
+            os.system("cls")
+            page_info = [solar_system]
+            break
+        print("press q to quit")
 
 if __name__ == "__main__":
 
@@ -307,6 +319,7 @@ if __name__ == "__main__":
             if inp == "unitset":
                 unit_set()
             if inp == "animate":
+                page_specifier = 0
                 page_info = [animate_system]
         else:
             print("that's not a command")

@@ -4,43 +4,38 @@ Assets for the solar system program
 """
 
 planet_description =[
-"Mercury is the planet closest to the sun. Due to its short 88-day orbit Mercury is on average every planet's closest neighbor. Mercury is rocky and has a very thin atmosphere causing its temperature to fluctuate greatly.",
-"Venus is the planet second closest to the sun. Venus is simular in size to earth, leading some to refer to Venus as \"Earth's Twin.\" Venus has a much thicker atmosphere than Earth causing Venus to have very high temperatures. The ground on Venus is rocky and there are many active volcanoes.",
-"Earth is the third planet in the solar system. Earth is the only planet in the solar system known to harbor life. Earth is the only place where humans can survive and currently (as of 2025) has a human population of 8.2 billion.",
-"Mars is the fourth planet in the solar system. Nicknamed \"The Red Planet\" mars is known for its dusty orange red color. Next to Earth Mars is the most hospitable planet in the solar system for life. Manned missions to Mars are likely to occur in the future.", "Jupiter is the fifth planet in the solar system. Jupiter does not have a solid surface as it is a Gas Giant. Jupiter is by far the biggest planet in the solar system with a gravitational force so powerful it causes thesun to wobble. Jupiter is known for its striped orange and white appearance and for its Great Red Spot, a massive storm that appears as a red spot on the planets surface. ",
-"Saturn is the 6th planet in the solar system. Saturn is known for its rings which consist of ice, dust and rock particles that orbit the planet. Saturn is a Gas Giant with a yellowish appearance. On Saturn's north pole a hexagon shape is visable. The shape is formed by clouds.",
-"Uranus is the 7th planet in the solar system. Uranus is known for its pale cyan appearance. Uranus is a type of Gas Giant known as an ice giant. Uranus is made up largly of ice but like other gas giants Uranus does not have a solid surface. Uranus is the coldest planet in the solar system.",
-"Neptune is the 8th planet in the solar system, making it the planet farthest from the Sun. Neptune is an Ice Giant meaning it lacks a solid surface and contains a great amount of Ice. Neptune is known for its darkblue color. Neptune has the longest orbit of any planet in our solar system, a full rotation around the sun takes Neptune 164 Earth Years."]
+"Mercury is the planet closest to the Sun. Due to its short 88-day orbit, Mercury is, on average, every planet's closest neighbor. Mercury is rocky and has a very thin atmosphere, causing its temperature to fluctuate greatly.",
+"Venus is the planet second closest to the Sun. Venus is similar in size to Earth, leading some to refer to Venus as \"Earth's Twin.\" Venus has a much thicker atmosphere than Earth, causing Venus to have very high temperatures. The ground on Venus is rocky, and there are many active volcanoes.",
+"Earth is the third planet in the Solar System. Earth is the only planet in the universe known to harbor life. This is due to Earth's unique atmosphere. The surface of Earth is about 70 percent liquid water and 30 percent land. Earth currently (as of 2025) has a human population of roughly 8.2 billion.",
+"Mars is the fourth planet in the Solar System. Nicknamed \"The Red Planet\", Mars is known for its dusty orange-red color. Next to Earth, Mars is widely considered the second most hospitable planet in the Solar System for life. Manned missions to Mars are likely to occur in the future. Mars is also the only planet (outside of Earth) that currently has rovers on it.",
+"Jupiter is the fifth planet in the solar system. Jupiter does not have a solid surface as it is a Gas Giant. Jupiter is by far the biggest planet in the Solar System, with a gravitational force so powerful it causes the Sun to wobble. Jupiter is known for its orange and white striped appearance and for its Great Red Spot, a massive storm that is visible as a red spot on the planet's surface.",
+"Saturn is the sixth planet in the Solar System. Saturn is known for its rings which consist of ice, dust and rock particles that orbit the planet. Saturn is a Gas Giant with a yellowish appearance. On Saturn's north pole a hexagon shape is visible. The shape is formed by clouds.",
+"Uranus is the seventh planet in the Solar System. Uranus is known for its pale cyan appearance. Uranus is a type of Gas Giant known as an ice giant. Uranus is made up largely of ice but like other gas giants Uranus does not have a solid surface. Uranus is the coldest planet in the solar system.",
+"Neptune is the eighth planet in the solar system, making it the planet farthest from the Sun. Neptune is an Ice Giant, it lacks a solid surface and contains a great amount of ice. Neptune is known for its dark blue color. Neptune has the longest orbit of any planet in our solar system, a full rotation around the sun takes Neptune 164 Earth Years."]
 
-moon_count = "no", "no", "one"
 
 about = """
-Planet UI is a program made for the 2025 UVM CS Fair. I created to learn more about displaying things in the text, and because I wanted to try out using the
-Python astronomy libraries.
-
 This program includes:
 -Information pages for all 8 of the major planets in the Solar System based on data from JPL at the set time
--A visualisation of the solar system with ascii graphics also based on JPL data at the set time
--An animation mode for the solar system visualisation
+-A visualization of the Solar System with ASCII graphics. (also based on JPL data at the set time)
+-An animation mode for the Solar System visualization
 -Settable Date and Time
 -Settable Units
 
 This program notable uses:
--A custom sort of mini library to display ascii text to the screen. This library is something I programmed especially for this project and it includes customizable
-textboxes, rings, and circles that can orbit.
+-A custom sort of mini library to display text information to the screen. This library is something I programmed especially for this project, and it includes customizable
+textboxes, rings, and circles that can orbit. I used this to build a sort of terminal user interface.
 -JPL DATA for both the information pages and Solar System visualization
 
 
 Some interesting things you can do with this program include:
--Setting the date to a solstice or equinox and seeing how Earth will be lined up at a 90 degree angle from the Vernal Equinox
--Setting the date to ones birthday and then setting it back to the current day looking to see how the planets positions have changed since one was born
+-Setting the date to a solstice or equinox and seeing how Earth will be lined up at a 90-degree angle from the Vernal Equinox
+-Setting the date to your birthday and then setting the date to the current day and looking to see how the planet’s positions have changed since you were born
 -Animating the solar system and watching how planets further from the Sun move at slower rates
--Checking the distances of one planet to another in light time, and imagining that this is how long it would take for a person to send a radio signal
-radio signal to travel from one planet to another
+-Checking the distances of one planet to another in light minutes and imagining that this is how long it would take for a one to send a radio signal from one planet to another.
 
+I hope you find this program at least a little bit cool or educational. Thank you for checking it out.
 
-I hope you find this program at least a little bit cool and eductional. Thank you for checking it out.
--Ezra
 """ 
 
 welcome_text = r"""

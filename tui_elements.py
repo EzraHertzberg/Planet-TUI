@@ -1,20 +1,28 @@
+"""
+Functions used for drawing the TUI components of the program onto the grid
+"""
+
+
 import textwrap
 import math
-#from ascii_magic import AsciiArt
 
+
+#function used to create textboxes in the TUI
 class text_box:
     def __init__(self, grid, x, y, w, h, message, has_border=False, wrap=None):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
+        #Makes line breaks into ‽ symbols which are unlikely to come up in ASCII illustration and are easy to use as linebreaks
+        #Also adds break symbols appropriately if the text is meant to wrap when it hits a certain length
         if not wrap:
             self.message = message.replace("\n","‽")
         elif wrap == "fill":
             wrapped = textwrap.fill(message, self.w - 2)
             wrapped = wrapped.replace("\n","‽")
             self.message = wrapped
-            
+        #sets the width and height of the text box to stretch around the text if the stretch boolean is true
         if self.w == "stretch" or self.h == "stretch":
             longest_line = 0
             current_line_len = 0
@@ -33,7 +41,9 @@ class text_box:
             
         self.has_border = has_border
         
-        #actual function
+        #Builds a text box, if there is a boarder the characters
+        #| will be put on the sides and ~ will be put on the top and bottom
+        #‽ will make a new line
         new_line = False
         character = 0
         lines = []
@@ -56,6 +66,8 @@ class text_box:
                             new_line = True
                 except IndexError:
                     pass
+#function that draws different sized circles that are capable of rotating around each other
+#this function is used for the planets in solar system visualisation
 class circle:
         def __init__(self, x, y, size, name):
             self.x = x
@@ -89,7 +101,7 @@ class circle:
             self.y = round(origin.y - math.sin(self.ang) * 0.9 * dist)
             self.ang = self.ang + speed
             
-            
+#Function to draw rings used in solar system visualisation            
 def draw_ring(grid, origin, dist):
     for i in range(1,round(360)):
         try:
@@ -99,7 +111,4 @@ def draw_ring(grid, origin, dist):
         except IndexError:
             pass
         
-if __name__ == "__main__":
-    from ascii_magic import AsciiArt
-    my_art = AsciiArt.from_image("images/Uranus_clouds.jpg")
-    my_art.to_terminal()
+#if __name__ == "__main__":

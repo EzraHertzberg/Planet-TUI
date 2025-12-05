@@ -1,6 +1,9 @@
 """
 Planet_UI a TUI to explore the Solar System
+This is the main program file that handles creating the pages, navigating from page to page,
+and setting the date and time
 """
+#import libraries
 import math
 import os
 import time
@@ -11,34 +14,39 @@ import assets
 import tui_elements
 import keyboard
 
+#set time for program
 ts = load.timescale()
 the_time = ts.now()
+
+#Set size of grid for rendering TUI on to
 size = os.get_terminal_size()
 screen_width = size.columns 
 screen_height = size.lines - 2
 
+#set default units to km
 distance_unit = "km"
 velocity_unit = "km"
 
+#makes a dictionary of commands for navigation and interaction with the program
 commands = {"h": "type h to be sent to the help page",
             "dateset": "prompts you to set set specific date or set date as the current date",
             "timeset": "prompts you to set specific time or set time as the current time",
-            "unitset": "prompts for what velocity and distance units to display, valid units include {km, mi, au, light-seconds, or light-minutes",
+            "unitset": "prompts for what velocity and distance units to display, valid units include {km, mi, au, light-seconds, or light-minutes}",
             "animate": "animate the solar system, prompts user for how fast and in what direction to move time",
             "about": "sends you to the about page",
             "goto": "prompts for destination ex.{mars, venus, solarsystem} and navigates to that page"}
 
-
-page_info = []
+#Create globals for page navigation and grid drawing
 grid = []
+page_info = []
 page_specifier = 0
 
-
+#Function to draw about page
 def about():
     os.system("cls")
     tui_elements.text_box(grid, 5, 5, "stretch", "stretch", assets.about, False) 
     
-
+#Function to make welcome page
 def welcome():
     quickstart = """
     enter h for a list of commands
@@ -50,6 +58,7 @@ def welcome():
     tui_elements.text_box(grid, 0, 0, "stretch", "stretch", assets.welcome_text)
     tui_elements.text_box(grid, 5, 35, "stretch", "stretch", quickstart, False)    
 
+#Function to make a planet page
 def planet_page(planet_id):
     os.system("cls")
     moon_counts = []
@@ -79,7 +88,7 @@ def planet_page(planet_id):
     tui_elements.text_box(grid, 70, 25, 40, 3,f"Velocity", True, "fill")
     tui_elements.text_box(grid, 70, 27, 40, 5,f"{calc.calc_velocity(planet_id, velocity_unit, the_time)}", True, "fill")
 
-
+#Function to navigate between major program pages
 def go_to():
     valid_destinations = ["solarsystem","mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
     planets = ["mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
@@ -102,6 +111,7 @@ def go_to():
         else:
             print(f"invalid, program does not recognize {go} as a place to go to. Try again")
             
+#Function to set the date          
 def set_new_date():
     while True:
         inp1 = input("Enter d to set date or n for the current date: ")
@@ -151,7 +161,7 @@ def set_new_date():
         the_second = the_time.utc.second
         return ts.utc(year, month, day, the_hour, the_minute, the_second) 
         
-
+#function to set the time
 def set_new_time():
     while True:
         inp1 = input("Enter t to set time or n for the current time: ")
@@ -196,6 +206,7 @@ def set_new_time():
         return ts.utc(the_year, the_month, the_day, hour, minute, second) 
         
 
+#Function to set a new unit
 def unit_set():
     global distance_unit, velocity_unit
     q = False
@@ -232,7 +243,7 @@ def unit_set():
             else:
                 print("invalid input unit not recognized")
             
-                
+#function that sets a clear blank grid                
 def grid_set():
     global grid
     grid = []
@@ -242,20 +253,20 @@ def grid_set():
             row_arr.append(" ")
         grid.append(row_arr)
 
-
+#function that draws the grid
 def grid_call():
     global grid
     for i in range(screen_height):
         for j in range(screen_width):
             print(grid[i][j], end = "")
 
-
+#function that draws a clear blank grid
 def screen_clear():
     os.system("cls")
     grid_set()
     grid_call()
 
-
+#function for help page
 def _help():
     os.system("cls")
     com_text = ""
@@ -266,6 +277,7 @@ def _help():
         tui_elements.text_box(grid, 3, 3 + counter, 200, 100, f"\n{command}")
         tui_elements.text_box(grid, 15, 3 + counter, 200, 100, f"\n{description}")    
 
+#function to draw solar system visualisation
 def solar_system(animated = False):
     if not animated:
         os.system("cls")
@@ -295,6 +307,7 @@ def solar_system(animated = False):
     tui_elements.text_box(grid, 0, 0, "stretch", "stretch", f"Aproximation of Angles of planets from Sun as of {the_time.utc_strftime()} accessed from JPL ephemeris {calc.ephem}", False)
     
     
+#function to draw the animated solar system
 def animate_system():
     global the_time, page_info
     while True:
@@ -321,7 +334,10 @@ def animate_system():
         print("press q to quit")
 
 if __name__ == "__main__":
+    #sets page to welcome by default
     page_info = [welcome]
+    
+    #Loop that handles navigation and user commands
     while True:
         grid_set()
         if page_specifier == 0:
